@@ -51,8 +51,17 @@
   <div class="logo">🙏</div>
   <h1>We're Sorry</h1>
   <p>We'd love to make things right.</p>
-  <textarea placeholder="Tell us what went wrong so we can improve..."></textarea>
-  <button class="btn submit-btn" onclick="submitFeedback()">Send Feedback</button>
+  
+  <form action="https://formspree.io/f/xvzdrvld" method="POST" id="negative-form">
+    <input type="hidden" name="rating" id="form-rating" value="">
+    <input type="hidden" name="clinic" value="150 Elgin Dental">
+    <input type="hidden" name="source" value="Review Funnel">
+    
+    <textarea name="feedback" placeholder="Tell us what went wrong so we can improve..." required></textarea>
+    
+    <button type="submit" class="btn submit-btn">Send Feedback</button>
+  </form>
+  
   <div class="success hidden" id="success-msg">Thank you for your feedback. We'll be in touch soon!</div>
 </div>
 
@@ -76,6 +85,7 @@
       document.getElementById('rating-text').textContent = texts[selectedRating - 1];
 
       setTimeout(() => {
+        document.getElementById('form-rating').value = selectedRating;
         document.getElementById('step1').classList.add('hidden');
         if (selectedRating >= 4) {
           document.getElementById('step2-positive').classList.remove('hidden');
@@ -86,9 +96,12 @@
     });
   });
 
-  function submitFeedback() {
-    document.getElementById('success-msg').classList.remove('hidden');
-  }
+  document.getElementById('negative-form').addEventListener('submit', function() {
+    setTimeout(() => {
+      this.classList.add('hidden');
+      document.getElementById('success-msg').classList.remove('hidden');
+    }, 500);
+  });
 </script>
 
 </body>

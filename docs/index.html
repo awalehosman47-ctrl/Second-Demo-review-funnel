@@ -52,7 +52,7 @@
   <h1>We're Sorry</h1>
   <p>We'd love to make things right.</p>
   
-  <form action="https://formspree.io/f/xvzdrvld" method="POST" id="negative-form">
+  <form id="negative-form">
     <input type="hidden" name="rating" id="form-rating" value="">
     <input type="hidden" name="clinic" value="150 Elgin Dental">
     <input type="hidden" name="source" value="Review Funnel">
@@ -96,11 +96,19 @@
     });
   });
 
-  document.getElementById('negative-form').addEventListener('submit', function() {
-    setTimeout(() => {
-      this.classList.add('hidden');
-      document.getElementById('success-msg').classList.remove('hidden');
-    }, 500);
+  document.getElementById('negative-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    await fetch('https://formspree.io/f/xvzdrvld', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+    
+    this.classList.add('hidden');
+    document.getElementById('success-msg').classList.remove('hidden');
   });
 </script>
 
